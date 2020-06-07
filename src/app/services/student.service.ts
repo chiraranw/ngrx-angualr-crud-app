@@ -11,6 +11,7 @@ export class StudentService {
     constructor(private http: HttpClient) { }
 
     public getStudents(): Observable<Student[]> {
+        console.log("Service Called");        
         return this.http.get<Student[]>("http://localhost:3000/students");
     }
 }

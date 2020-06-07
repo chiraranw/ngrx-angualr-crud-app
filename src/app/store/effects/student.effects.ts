@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, flatMap } from 'rxjs/operators';
 import { StudentService } from 'src/app/services/student.service';
 import * as fromStudents from '../actions/student.actions'
 
@@ -16,11 +16,11 @@ export class StudentEffects {
   @Effect()
   loadStudents$ = this.actions$
     .pipe(
-      ofType("[Home page] Load"),
-      mergeMap(() => this.studentService.getStudents()
+      ofType(fromStudents.StudentActionTypes.LoadStudentsBegin),
+      flatMap(() => this.studentService.getStudents()
         .pipe(
-          map(students => ({type:"[Home page] Loading",payload:students})),
-          catchError(error=>of({type:"[Home page] Loading Failed",payload:error}))
+          map(students => (new fromStudents.LoadStudentsSuccessAction(students))),
+          catchError(error=>of(new fromStudents.LoadStudentsFailedAction(error)))
         ))
       );
  

@@ -11,17 +11,17 @@ export enum StudentActionTypes {
 
 //Implementation of the above Actions
 export class LoadStudentsBeginAction implements Action {
-    readonly type: StudentActionTypes.LoadStudentsBegin;
+    readonly type= StudentActionTypes.LoadStudentsBegin;
     constructor() { }
 }
 
 export class LoadStudentsSuccessAction implements Action {
-    readonly type: StudentActionTypes.LoadStudentsSuccess;
+    readonly type= StudentActionTypes.LoadStudentsSuccess;
     constructor(public payload: Student[]) { }
 }
 
 export class LoadStudentsFailedAction implements Action {
-    readonly type: StudentActionTypes.LoadStudentsFailed;
+    readonly type= StudentActionTypes.LoadStudentsFailed;
     constructor(public payload: any) { }
 }
 

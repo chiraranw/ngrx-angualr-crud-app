@@ -11,7 +11,7 @@ export interface StudentAppState {
 export const initialState: StudentAppState = {
     loaded: true,
     students: [],
-    error: undefined
+    error: null
 }
 
 export function StudentReducer(state = initialState, action: fromStduents.LoadStudentActionUnion): StudentAppState {
