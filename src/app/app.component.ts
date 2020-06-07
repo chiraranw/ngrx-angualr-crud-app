@@ -12,10 +12,10 @@ import { StudentAppState } from './store/reducers/student.reducer';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'simple-ngrx-app';
   public students: Student[] = []
   constructor(private studentApi: StudentService, private store: Store<StudentAppState>) {
-    this.store.dispatch(new LoadStudentsBeginAction());   
+    this.store.dispatch(new LoadStudentsBeginAction());
+    this.store.subscribe(state=>(this.students=state.students));   
     
   }
 }
