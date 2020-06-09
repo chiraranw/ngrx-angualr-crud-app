@@ -4,7 +4,9 @@
     <div class="col-md-1"></div>
     <div class="col-md-10">
       <div class="jumbotron ">
-        <p>{{students | json}}</p>
+        <ul>
+          <li *ngFor="let student of (students$ | async)">{{student|json}}</li>
+        </ul>
       </div>
     </div>
     <div class="col-md-1"></div>
