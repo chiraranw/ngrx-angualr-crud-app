@@ -1,0 +1,21 @@
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of (students$ | async)">
+        <td>{{student.id}}</td>
+        <td>{{student.name}}</td>
+        <td>{{student.surname}}</td>
+        <td>
+          <button type="button" class="btn btn-danger">Delete</button> &nbsp;
+          <button type="button" class="btn btn-info">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

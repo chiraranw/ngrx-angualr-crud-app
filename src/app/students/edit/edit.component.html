@@ -1,0 +1,16 @@
+<form  [formGroup]="editStForm">
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" formControlName="id" name="id" readonly>
+          </div>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="name" name="name">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="surname" name="surname">
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-info">Save</button>
+      </div>
+    </div>
+  </form>
