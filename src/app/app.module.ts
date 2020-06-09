@@ -8,19 +8,26 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { StudentService } from './services/student.service';
 import { StudentReducer } from './store/reducers/student.reducer';
+import { ListComponent } from './students/list/list.component';
+import { EditComponent } from './students/edit/edit.component';
+import { CreateComponent } from './students/create/create.component';
+import {ReactiveFormsModule} from '@angular/forms'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ListComponent,
+    EditComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({ students: StudentReducer }),
     EffectsModule.forRoot([StudentEffects]),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-     // logOnly: environment.production, // Restrict extension to log-only mode
+      maxAge: 25
     }),
   ],
   providers: [StudentService],

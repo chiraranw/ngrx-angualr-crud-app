@@ -1,14 +1,16 @@
 <div class="container">
-  <br><br>
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <div class="jumbotron ">
-        <ul>
-          <li *ngFor="let student of (students$ | async)">{{student|json}}</li>
-        </ul>
+    <br><br>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="jumbotron ">
+            <app-create></app-create>
+            <br><br>
+            <app-list></app-list>
+            <br><br>
+            <app-edit></app-edit>
+        </div>
       </div>
+      <div class="col-md-1"></div>
     </div>
-    <div class="col-md-1"></div>
   </div>
-</div>

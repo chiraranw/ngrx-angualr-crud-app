@@ -13,11 +13,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public students$:Observable<Student[]>
-  constructor(private studentApi: StudentService, private store: Store<fromStudentsReducer.StudentAppState>) {
-    this.store.dispatch(new LoadStudentsBeginAction());
-    //this.store.subscribe(state=>(this.students=state.students));  
-    this.students$=this.store.pipe(select(fromStudentsReducer.getStudents)); 
+  // public students$:Observable<Student[]>
+  // constructor(private studentApi: StudentService, private store: Store<fromStudentsReducer.StudentAppState>) {
+  //   this.store.dispatch(new LoadStudentsBeginAction());
+  //   //this.store.subscribe(state=>(this.students=state.students));  
+  //   this.students$=this.store.pipe(select(fromStudentsReducer.getStudents)); 
     
-  }
+  // }
 }
