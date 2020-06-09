@@ -17,7 +17,7 @@ export class LoadStudentsBeginAction implements Action {
 
 export class LoadStudentsSuccessAction implements Action {
     readonly type= StudentActionTypes.LoadStudentsSuccess;
-    constructor(public payload: Student[]) { }
+    constructor(public payload: any) { }
 }
 
 export class LoadStudentsFailedAction implements Action {

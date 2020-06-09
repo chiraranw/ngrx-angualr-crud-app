@@ -1,30 +1,31 @@
 import { Student } from 'src/app/model/student.model';
 import * as fromStduents from '../actions/student.actions'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity'
+import { EntityStateAdapter } from '@ngrx/entity/src/models';
 
 
-export interface StudentAppState {
+export interface StudentAppState extends EntityState<Student> {
     loaded: boolean,
-    students: Student[],
     error: any
 }
+export const adapter: EntityAdapter<Student> = createEntityAdapter();
 
-export const initialState: StudentAppState = {
-    loaded: true,
-    students: [],
-    error: null
-}
+export const initialState: StudentAppState = adapter.getInitialState(
+    {
+        loaded: false,
+        error: null
+    }
+);
 
 export function StudentReducer(state = initialState, action: fromStduents.LoadStudentActionUnion): StudentAppState {
     switch (action.type) {
-
         //To initiate loading, no payload required
         case fromStduents.StudentActionTypes.LoadStudentsBegin: {
             console.log("LoadStudentsBegin");
             return {
                 ...state,
                 loaded: false,
-                students: [],
                 error: null
             }
         };
@@ -33,9 +34,8 @@ export function StudentReducer(state = initialState, action: fromStduents.LoadSt
         case fromStduents.StudentActionTypes.LoadStudentsSuccess: {
             console.log("LoadStudentsSuccess");
             return {
-                ...state,
+                ...adapter.addAll(action.payload,state),
                 loaded: true,
-                students: action.payload,
                 error: null
             }
         };
@@ -46,7 +46,6 @@ export function StudentReducer(state = initialState, action: fromStduents.LoadSt
             return {
                 ...state,
                 loaded: false,
-                students: [],
                 error: action.payload
             }
         };
@@ -62,6 +61,7 @@ export function StudentReducer(state = initialState, action: fromStduents.LoadSt
 //Selectors
 const studentFeatureState = createFeatureSelector<StudentAppState>("students");
 
-export const getStudents = createSelector(studentFeatureState,(state: StudentAppState) => state.students);
-export const getStudentLoaded = createSelector(studentFeatureState,(state: StudentAppState) => state.loaded);
-export const getStudentError = createSelector(studentFeatureState,(state: StudentAppState) => state.error);
+export const getStudents = createSelector(studentFeatureState, adapter.getSelectors().selectAll);
+export const getStudentLoaded = createSelector(studentFeatureState, (state: StudentAppState) => state.loaded);
+export const getStudentError = createSelector(studentFeatureState, (state: StudentAppState) => state.error);
+
