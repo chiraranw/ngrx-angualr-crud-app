@@ -14,4 +14,8 @@ export class StudentService {
         console.log("Service Called");        
         return this.http.get<Student[]>("http://localhost:3000/students");
     }
+
+    public create(payload:Student):Observable<Student>{        
+        return this.http.post<Student>("http://localhost:3000/students/",payload);
+    }
 }

@@ -8,11 +8,11 @@ import * as fromStudents from '../actions/student.actions'
 @Injectable()
 export class StudentEffects {
 
-    constructor(
-        private actions$: Actions,
-        private studentService: StudentService
-      ) {}
- 
+  constructor(
+    private actions$: Actions,
+    private studentService: StudentService
+  ) { }
+
   @Effect()
   loadStudents$ = this.actions$
     .pipe(
@@ -20,9 +20,18 @@ export class StudentEffects {
       flatMap(() => this.studentService.getStudents()
         .pipe(
           map(students => (new fromStudents.LoadStudentsSuccessAction(students))),
-          catchError(error=>of(new fromStudents.LoadStudentsFailedAction(error)))
+          catchError(error => of(new fromStudents.LoadStudentsFailedAction(error)))
         ))
-      );
- 
-  
+    );
+
+  @Effect()
+  createStudent$ = this.actions$.pipe(
+    ofType<fromStudents.AddStudentBeginAction>(fromStudents.StudentActionTypes.AddStudentBegin),
+    mergeMap(action => this.studentService.create(action.payload).pipe(
+      map(student => new fromStudents.AddStudentSuccessAction(student)),
+      catchError(error => of(new fromStudents.AddStudentFailedAction(error)))
+    ))
+  );
+
+
 }

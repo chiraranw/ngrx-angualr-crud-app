@@ -23,31 +23,31 @@ export function StudentReducer(state = initialState, action: fromStduents.LoadSt
         //To initiate loading, no payload required
         case fromStduents.StudentActionTypes.LoadStudentsBegin: {
             console.log("LoadStudentsBegin");
-            return {
-                ...state,
-                loaded: false,
-                error: null
-            }
+            return { ...state, loaded: false, error: null }
         };
 
         //call http get, success, stick the contents in the state
         case fromStduents.StudentActionTypes.LoadStudentsSuccess: {
             console.log("LoadStudentsSuccess");
-            return {
-                ...adapter.addAll(action.payload,state),
-                loaded: true,
-                error: null
-            }
+            return { ...adapter.addAll(action.payload, state), loaded: true, error: null }
+        };
+
+        case fromStduents.StudentActionTypes.AddStudentBegin: {
+            return { ...state, loaded: false, error: null }
+        };
+
+        case fromStduents.StudentActionTypes.AddStudentSuccess: {
+            return { ...adapter.addOne(action.payload, state), loaded: true, error: null }
+        };
+
+        case fromStduents.StudentActionTypes.AddStudentFailed: {
+            return { ...state, loaded: false, error: action.payload }
         };
 
         //some error happened, bring it back to the user.
         case fromStduents.StudentActionTypes.LoadStudentsFailed: {
             console.log("LoadStudentsFailed");
-            return {
-                ...state,
-                loaded: false,
-                error: action.payload
-            }
+            return { ...state, loaded: false, error: action.payload }
         };
 
         //a mysterious action from Pluto!
