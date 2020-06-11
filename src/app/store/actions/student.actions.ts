@@ -15,6 +15,7 @@ export enum StudentActionTypes {
     AddStudentFailed = "[Create Component] Adding Failed",
 
     //Delete Student Action
+    //Action String MUST NEVER be equal
     DeleteStudentBegin="[Home Service] Deleting",
     DeleteStudentSuccess="[Home Service] Deleted",
     DeleteStudentFailed="[Home Service] Delete Failed"

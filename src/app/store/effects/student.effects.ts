@@ -36,6 +36,7 @@ export class StudentEffects {
 
   @Effect()
   deleteStudent$ = this.actions$.pipe(
+    //not providing the <> you won't see the action.payload
     ofType<fromStudents.DeleteStudentBeginAction>(fromStudents.StudentActionTypes.DeleteStudentBegin),
     switchMap(action=>this.studentService.delete(action.payload).pipe(
       map(result=> new fromStudents.DeleteStudentSuccessAction(action.payload))
