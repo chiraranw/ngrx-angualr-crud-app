@@ -12,10 +12,31 @@ export enum StudentActionTypes {
     //Add Student Action
     AddStudentBegin = "[Create Component] Adding",
     AddStudentSuccess = "[Create Component] Add",
-    AddStudentFailed = "[Create Component] Adding Failed"
+    AddStudentFailed = "[Create Component] Adding Failed",
+
+    //Delete Student Action
+    DeleteStudentBegin="[Home Service] Deleting",
+    DeleteStudentSuccess="[Home Service] Deleted",
+    DeleteStudentFailed="[Home Service] Delete Failed"
 }
 
 //Implementation of the above Actions
+
+export class DeleteStudentBeginAction implements Action{
+    readonly type=StudentActionTypes.DeleteStudentBegin;
+    constructor(public payload:number){}
+}
+
+export class DeleteStudentSuccessAction implements Action{
+    readonly type=StudentActionTypes.DeleteStudentSuccess;
+    constructor(public payload:number){}
+}
+
+export class DeleteStudentFailedAction implements Action{
+    readonly type=StudentActionTypes.DeleteStudentFailed;
+    constructor(public payload:any){}
+}
+
 export class AddStudentBeginAction implements Action {
     readonly type = StudentActionTypes.AddStudentBegin;
     constructor(public payload: Student) { }
@@ -54,4 +75,7 @@ export type LoadStudentActionUnion =
     | LoadStudentsFailedAction
     | AddStudentBeginAction
     | AddStudentSuccessAction
-    | AddStudentFailedAction;
+    | AddStudentFailedAction
+    |DeleteStudentBeginAction
+    |DeleteStudentSuccessAction
+    |DeleteStudentFailedAction;

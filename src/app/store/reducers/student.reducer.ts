@@ -20,18 +20,20 @@ export const initialState: StudentAppState = adapter.getInitialState(
 
 export function StudentReducer(state = initialState, action: fromStduents.LoadStudentActionUnion): StudentAppState {
     switch (action.type) {
+
+        //LOAD
         //To initiate loading, no payload required
         case fromStduents.StudentActionTypes.LoadStudentsBegin: {
             console.log("LoadStudentsBegin");
             return { ...state, loaded: false, error: null }
         };
-
         //call http get, success, stick the contents in the state
         case fromStduents.StudentActionTypes.LoadStudentsSuccess: {
             console.log("LoadStudentsSuccess");
             return { ...adapter.addAll(action.payload, state), loaded: true, error: null }
         };
 
+        //ADD
         case fromStduents.StudentActionTypes.AddStudentBegin: {
             return { ...state, loaded: false, error: null }
         };
@@ -48,6 +50,19 @@ export function StudentReducer(state = initialState, action: fromStduents.LoadSt
         case fromStduents.StudentActionTypes.LoadStudentsFailed: {
             console.log("LoadStudentsFailed");
             return { ...state, loaded: false, error: action.payload }
+        };
+
+        //DELETE
+        case fromStduents.StudentActionTypes.DeleteStudentBegin: {
+            return state;
+        };
+        case fromStduents.StudentActionTypes.DeleteStudentSuccess: {
+            console.log("Deleting St");
+            
+            return { ...adapter.removeOne(action.payload,state), loaded: false, error: null }
+        };
+        case fromStduents.StudentActionTypes.DeleteStudentFailed:{
+            return {...state,loaded:false,error:action.payload}
         };
 
         //a mysterious action from Pluto!

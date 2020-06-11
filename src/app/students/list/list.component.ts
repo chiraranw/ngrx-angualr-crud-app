@@ -3,7 +3,8 @@ import { Store, select } from '@ngrx/store';
 import { StudentAppState, getStudents } from 'src/app/store/reducers/student.reducer';
 import { Observable } from 'rxjs';
 import { Student } from 'src/app/model/student.model';
-import { LoadStudentsBeginAction } from 'src/app/store/actions/student.actions';
+import { LoadStudentsBeginAction, DeleteStudentBeginAction } from 'src/app/store/actions/student.actions';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-list',
@@ -13,11 +14,15 @@ import { LoadStudentsBeginAction } from 'src/app/store/actions/student.actions';
 export class ListComponent implements OnInit {
 
   students$:Observable<Student[]>
-  constructor(private store:Store<StudentAppState>) { }
+  constructor(private store:Store<StudentAppState>, private api:StudentService) { }
   
   ngOnInit(): void {
     this.store.dispatch(new LoadStudentsBeginAction());
-    this.students$=this.store.pipe(select(getStudents));
+    this.students$=this.store.pipe(select(getStudents));   
+  }
+
+  delete(student:Student){   
+    this.store.dispatch(new DeleteStudentBeginAction(student.id));    
   }
 
 }

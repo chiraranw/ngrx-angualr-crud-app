@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, mergeMap, catchError, flatMap } from 'rxjs/operators';
+import { map, mergeMap, catchError, flatMap, tap, switchMap } from 'rxjs/operators';
 import { StudentService } from 'src/app/services/student.service';
 import * as fromStudents from '../actions/student.actions'
+import { Student } from 'src/app/model/student.model';
 
 @Injectable()
 export class StudentEffects {
@@ -33,5 +34,13 @@ export class StudentEffects {
     ))
   );
 
+  @Effect()
+  deleteStudent$ = this.actions$.pipe(
+    ofType<fromStudents.DeleteStudentBeginAction>(fromStudents.StudentActionTypes.DeleteStudentBegin),
+    switchMap(action=>this.studentService.delete(action.payload).pipe(
+      map(result=> new fromStudents.DeleteStudentSuccessAction(action.payload))
+    ))
+
+  );
 
 }
