@@ -38,10 +38,30 @@ export class StudentEffects {
   deleteStudent$ = this.actions$.pipe(
     //not providing the <> you won't see the action.payload
     ofType<fromStudents.DeleteStudentBeginAction>(fromStudents.StudentActionTypes.DeleteStudentBegin),
-    switchMap(action=>this.studentService.delete(action.payload).pipe(
-      map(result=> new fromStudents.DeleteStudentSuccessAction(action.payload))
-    ))
+    switchMap(action => this.studentService.delete(action.payload).pipe(
+      map(result => new fromStudents.DeleteStudentSuccessAction(action.payload)),
+      catchError(error => of(new fromStudents.DeleteStudentFailedAction(error)))
+    )));
 
+  @Effect()
+  update$ = this.actions$.pipe(
+    ofType<fromStudents.UpdateStudentAction>(fromStudents.StudentActionTypes.UpdateStudent),
+    mergeMap(action => this.studentService.update(action.payload).pipe(
+      map(result => new fromStudents.UpdateStudentSuccess({
+        id: action.payload.id,
+        changes: action.payload
+      })),
+      catchError(error => of(new fromStudents.UpdateStudentFailed(error)))
+    ))
+  );
+
+  @Effect()
+  select$ = this.actions$.pipe(
+    ofType<fromStudents.SelectStudentAction>(fromStudents.StudentActionTypes.SelectStudent),
+    mergeMap(action => this.studentService.getStudentById(action.payload).pipe(
+      map(student => new fromStudents.SelectStudentSuccessAction(student)),
+      catchError(error => of(new fromStudents.SelectStudentFailedAction(error)))
+    ))
   );
 
 }

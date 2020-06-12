@@ -7,19 +7,45 @@ import { EntityStateAdapter } from '@ngrx/entity/src/models';
 
 export interface StudentAppState extends EntityState<Student> {
     loaded: boolean,
-    error: any
+    error: any,
+    currentId: number
 }
 export const adapter: EntityAdapter<Student> = createEntityAdapter();
 
 export const initialState: StudentAppState = adapter.getInitialState(
     {
         loaded: false,
-        error: null
+        error: null,
+        currentId: undefined
     }
 );
 
 export function StudentReducer(state = initialState, action: fromStduents.LoadStudentActionUnion): StudentAppState {
     switch (action.type) {
+
+        //SELECT
+        case fromStduents.StudentActionTypes.SelectStudent: {
+            return state;
+        };
+
+        case fromStduents.StudentActionTypes.SelectStudentSuccess: {
+            return { ...state, currentId: action.payload.id };
+        };
+
+        case fromStduents.StudentActionTypes.SelectStudentFailed: {
+            return { ...state, error: action.payload };
+        };
+
+        //UPDATE
+        case fromStduents.StudentActionTypes.UpdateStudentSuccess: {
+            console.log("Updating....");
+            return adapter.updateOne(action.payload, state);
+        };
+
+        case fromStduents.StudentActionTypes.UpdateStudentFailed: {
+            console.log("Updating....");
+            return { ...state, error: action.payload }
+        };
 
         //LOAD
         //To initiate loading, no payload required
@@ -58,11 +84,11 @@ export function StudentReducer(state = initialState, action: fromStduents.LoadSt
         };
         case fromStduents.StudentActionTypes.DeleteStudentSuccess: {
             console.log("Deleting St");
-            
-            return { ...adapter.removeOne(action.payload,state), loaded: false, error: null }
+
+            return { ...adapter.removeOne(action.payload, state), loaded: false, error: null }
         };
-        case fromStduents.StudentActionTypes.DeleteStudentFailed:{
-            return {...state,loaded:false,error:action.payload}
+        case fromStduents.StudentActionTypes.DeleteStudentFailed: {
+            return { ...state, loaded: false, error: action.payload }
         };
 
         //a mysterious action from Pluto!
@@ -79,4 +105,10 @@ const studentFeatureState = createFeatureSelector<StudentAppState>("students");
 export const getStudents = createSelector(studentFeatureState, adapter.getSelectors().selectAll);
 export const getStudentLoaded = createSelector(studentFeatureState, (state: StudentAppState) => state.loaded);
 export const getStudentError = createSelector(studentFeatureState, (state: StudentAppState) => state.error);
+export const getSelectedStudentID = createSelector(studentFeatureState, (state: StudentAppState) => state.currentId);
+export const getSelectedStudent = createSelector(
+    studentFeatureState,
+    getSelectedStudentID,
+    (state: StudentAppState) => state.entities[state.currentId]
+);
 

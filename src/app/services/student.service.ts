@@ -20,7 +20,17 @@ export class StudentService {
     }
 
     public delete(id: number) {
-        console.log("Deleting Student with ID:",id);        
+        console.log("Deleting Student with ID:", id);
         return this.http.delete("http://localhost:3000/students/" + id);
+    }
+
+    public getStudentById(id: number): Observable<Student> {
+        console.log("getting student id", id);
+        return this.http.get<Student>("http://localhost:3000/students/" + id);
+    }
+
+    public update(student: Student) {
+        console.log("Updating...");
+        return this.http.patch("http://localhost:3000/students/" + student.id, student);
     }
 }
